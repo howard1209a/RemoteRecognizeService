@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.narc.arclient.network";
+option java_outer_classname = "RemoteRecognizeServiceProto";
+
+package network;
+
+service RemoteRecognizeService {
+  rpc recognize (RecognizeRequest) returns (RecognizeResponse) {}
+}
+
+message RecognizeRequest {
+  bytes bitmap_data = 1;
+}
+
+message RecognizeResponse {
+  string handedness = 1;
+  string gesture = 2;
+}

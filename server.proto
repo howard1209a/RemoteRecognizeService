@@ -17,4 +17,8 @@ message RecognizeRequest {
 message RecognizeResponse {
   string handedness = 1;
   string gesture = 2;
+  float x1 = 3;
+  float y1 = 4;
+  float x2 = 5;
+  float y2 = 6;
 }

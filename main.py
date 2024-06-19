@@ -34,11 +34,21 @@ class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
         mp_image = mp.Image(image_format=mp.ImageFormat.SRGB, data=image_np)
 
         gesture_recognition_result = recognizer.recognize(mp_image)
+
         if len(gesture_recognition_result.handedness) == 0:
-            return server_pb2.RecognizeResponse()
+            return server_pb2.RecognizeResponse(
+                handedness="",
+                gesture="",
+                x1=0,
+                y1=0,
+                x2=0,
+                y2=0
+            )
         else:
-            return server_pb2.RecognizeResponse(gesture_recognition_result.handedness[0],
-                                                gesture_recognition_result.gestures[0])
+            x1, y1, x2, y2 = detectRectangle(gesture_recognition_result.hand_landmarks[0])
+            return server_pb2.RecognizeResponse(handedness=gesture_recognition_result.handedness[0][0].category_name,
+                                                gesture=gesture_recognition_result.gestures[0][0].category_name, x1=x1,
+                                                y1=y1, x2=x2, y2=y2)
 
 
 def server():
@@ -48,6 +58,21 @@ def server():
     server.start()
     print("Server started, listening on port 50051")
     server.wait_for_termination()
+
+
+def detectRectangle(normalizedLandmarks):
+    x1 = 1
+    y1 = 1
+    x2 = 0
+    y2 = 0
+
+    for landmark in normalizedLandmarks:
+        x1 = min(x1, landmark.x)
+        y1 = min(y1, landmark.y)
+        x2 = max(x2, landmark.x)
+        y2 = max(y2, landmark.y)
+
+    return x1, y1, x2, y2
 
 
 if __name__ == '__main__':

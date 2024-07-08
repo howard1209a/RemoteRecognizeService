@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cserver.proto\x12\x07network\"\'\n\x10RecognizeRequest\x12\x13\n\x0b\x62itmap_data\x18\x01 \x01(\x0c\"h\n\x11RecognizeResponse\x12\x12\n\nhandedness\x18\x01 \x01(\t\x12\x0f\n\x07gesture\x18\x02 \x01(\t\x12\n\n\x02x1\x18\x03 \x01(\x02\x12\n\n\x02y1\x18\x04 \x01(\x02\x12\n\n\x02x2\x18\x05 \x01(\x02\x12\n\n\x02y2\x18\x06 \x01(\x02\x32^\n\x16RemoteRecognizeService\x12\x44\n\trecognize\x12\x19.network.RecognizeRequest\x1a\x1a.network.RecognizeResponse\"\x00\x42:\n\x19\x63om.narc.arclient.networkB\x1bRemoteRecognizeServiceProtoP\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cserver.proto\x12\x07network\"\'\n\x10RecognizeRequest\x12\x13\n\x0b\x62itmap_data\x18\x01 \x01(\x0c\"\x95\x01\n\x11RecognizeResponse\x12\x12\n\nhandedness\x18\x01 \x01(\t\x12\x0f\n\x07gesture\x18\x02 \x01(\t\x12\n\n\x02x1\x18\x03 \x01(\x02\x12\n\n\x02y1\x18\x04 \x01(\x02\x12\n\n\x02x2\x18\x05 \x01(\x02\x12\n\n\x02y2\x18\x06 \x01(\x02\x12\x14\n\x0crecieve_time\x18\x07 \x01(\x03\x12\x15\n\rsendback_time\x18\x08 \x01(\x03\x32^\n\x16RemoteRecognizeService\x12\x44\n\trecognize\x12\x19.network.RecognizeRequest\x1a\x1a.network.RecognizeResponse\"\x00\x42:\n\x19\x63om.narc.arclient.networkB\x1bRemoteRecognizeServiceProtoP\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -24,8 +24,8 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._serialized_options = b'\n\031com.narc.arclient.networkB\033RemoteRecognizeServiceProtoP\001'
   _globals['_RECOGNIZEREQUEST']._serialized_start=25
   _globals['_RECOGNIZEREQUEST']._serialized_end=64
-  _globals['_RECOGNIZERESPONSE']._serialized_start=66
-  _globals['_RECOGNIZERESPONSE']._serialized_end=170
-  _globals['_REMOTERECOGNIZESERVICE']._serialized_start=172
-  _globals['_REMOTERECOGNIZESERVICE']._serialized_end=266
+  _globals['_RECOGNIZERESPONSE']._serialized_start=67
+  _globals['_RECOGNIZERESPONSE']._serialized_end=216
+  _globals['_REMOTERECOGNIZESERVICE']._serialized_start=218
+  _globals['_REMOTERECOGNIZESERVICE']._serialized_end=312
 # @@protoc_insertion_point(module_scope)

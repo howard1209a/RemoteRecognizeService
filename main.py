@@ -1,3 +1,5 @@
+import time
+
 import grpc
 import mediapipe as mp
 import numpy as np
@@ -5,7 +7,6 @@ from mediapipe.tasks import python
 from concurrent import futures
 from PIL import Image
 import io
-import matplotlib.pyplot as plt
 
 import server_pb2
 import server_pb2_grpc
@@ -26,6 +27,7 @@ recognizer = GestureRecognizer.create_from_options(options)
 
 class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
     def recognize(self, request, context):
+        recieve_time = (int)(time.time() * 1000)
         # 使用PIL将字节数据转换为图像
         image = Image.open(io.BytesIO(request.bitmap_data))
         # 将图像转换为NumPy数组
@@ -35,6 +37,8 @@ class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
 
         gesture_recognition_result = recognizer.recognize(mp_image)
 
+        sendback_time = (int)(time.time() * 1000)
+
         if len(gesture_recognition_result.handedness) == 0:
             return server_pb2.RecognizeResponse(
                 handedness="",
@@ -42,13 +46,16 @@ class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
                 x1=0,
                 y1=0,
                 x2=0,
-                y2=0
+                y2=0,
+                recieve_time=recieve_time,
+                sendback_time=sendback_time
             )
         else:
             x1, y1, x2, y2 = detectRectangle(gesture_recognition_result.hand_landmarks[0])
             return server_pb2.RecognizeResponse(handedness=gesture_recognition_result.handedness[0][0].category_name,
                                                 gesture=gesture_recognition_result.gestures[0][0].category_name, x1=x1,
-                                                y1=y1, x2=x2, y2=y2)
+                                                y1=y1, x2=x2, y2=y2, recieve_time=recieve_time,
+                                                sendback_time=sendback_time)
 
 
 def server():

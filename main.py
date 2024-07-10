@@ -1,3 +1,4 @@
+import os
 import time
 
 import grpc
@@ -56,6 +57,52 @@ class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
                                                 gesture=gesture_recognition_result.gestures[0][0].category_name, x1=x1,
                                                 y1=y1, x2=x2, y2=y2, recieve_time=recieve_time,
                                                 sendback_time=sendback_time)
+
+    def logReport(self, request, context):
+        log_data = (
+            f"{request.deviceSerialNumber} "
+            f"{request.taskId} "
+            f"{request.unloadEnd} "
+            f"{request.startTime} "
+            f"{request.endTime} "
+            f"{request.posExist} "
+            f"{request.copyTime} "
+            f"{request.preprocessTime} "
+            f"{request.recognizeTime} "
+            f"{request.renderTime} "
+            f"{request.transfer2RemoteTime} "
+            f"{request.computeRemoteTime} "
+            f"{request.transfer2LocalTime}\n"
+        )
+
+        # 创建目录（如果不存在）
+        log_dir = f"log/{request.deviceSerialNumber}"
+        os.makedirs(log_dir, exist_ok=True)
+
+        with open("log/" + request.deviceSerialNumber + "/" + "log-" + request.deviceSerialNumber + ".txt",
+                  "a") as log_file:
+            log_file.write(log_data)
+
+        return server_pb2.EmptyResponse(success="true")
+
+    def systemState(self, request, context):
+        system_state_data = (
+            f"{request.deviceSerialNumber} "
+            f"{request.timestamp} "
+            f"{request.cpuUsage} "
+            f"{request.memUsage} "
+            f"{request.batteryLevel}\n"
+        )
+
+        # 创建目录（如果不存在）
+        log_dir = f"log/{request.deviceSerialNumber}"
+        os.makedirs(log_dir, exist_ok=True)
+
+        with open("log/" + request.deviceSerialNumber + "/" + "systemState-" + request.deviceSerialNumber + ".txt",
+                  "a") as log_file:
+            log_file.write(system_state_data)
+
+        return server_pb2.EmptyResponse(success="true")
 
 
 def server():

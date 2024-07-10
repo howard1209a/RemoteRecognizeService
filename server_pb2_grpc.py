@@ -44,12 +44,34 @@ class RemoteRecognizeServiceStub(object):
                 request_serializer=server__pb2.RecognizeRequest.SerializeToString,
                 response_deserializer=server__pb2.RecognizeResponse.FromString,
                 _registered_method=True)
+        self.logReport = channel.unary_unary(
+                '/network.RemoteRecognizeService/logReport',
+                request_serializer=server__pb2.LogReportRequest.SerializeToString,
+                response_deserializer=server__pb2.EmptyResponse.FromString,
+                _registered_method=True)
+        self.systemState = channel.unary_unary(
+                '/network.RemoteRecognizeService/systemState',
+                request_serializer=server__pb2.SystemStateRequest.SerializeToString,
+                response_deserializer=server__pb2.EmptyResponse.FromString,
+                _registered_method=True)
 
 
 class RemoteRecognizeServiceServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def recognize(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def logReport(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def systemState(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -62,6 +84,16 @@ def add_RemoteRecognizeServiceServicer_to_server(servicer, server):
                     servicer.recognize,
                     request_deserializer=server__pb2.RecognizeRequest.FromString,
                     response_serializer=server__pb2.RecognizeResponse.SerializeToString,
+            ),
+            'logReport': grpc.unary_unary_rpc_method_handler(
+                    servicer.logReport,
+                    request_deserializer=server__pb2.LogReportRequest.FromString,
+                    response_serializer=server__pb2.EmptyResponse.SerializeToString,
+            ),
+            'systemState': grpc.unary_unary_rpc_method_handler(
+                    servicer.systemState,
+                    request_deserializer=server__pb2.SystemStateRequest.FromString,
+                    response_serializer=server__pb2.EmptyResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -91,6 +123,60 @@ class RemoteRecognizeService(object):
             '/network.RemoteRecognizeService/recognize',
             server__pb2.RecognizeRequest.SerializeToString,
             server__pb2.RecognizeResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def logReport(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/network.RemoteRecognizeService/logReport',
+            server__pb2.LogReportRequest.SerializeToString,
+            server__pb2.EmptyResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def systemState(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/network.RemoteRecognizeService/systemState',
+            server__pb2.SystemStateRequest.SerializeToString,
+            server__pb2.EmptyResponse.FromString,
             options,
             channel_credentials,
             insecure,

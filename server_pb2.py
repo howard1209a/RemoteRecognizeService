@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cserver.proto\x12\x07network\"\'\n\x10RecognizeRequest\x12\x13\n\x0b\x62itmap_data\x18\x01 \x01(\x0c\"\x95\x01\n\x11RecognizeResponse\x12\x12\n\nhandedness\x18\x01 \x01(\t\x12\x0f\n\x07gesture\x18\x02 \x01(\t\x12\n\n\x02x1\x18\x03 \x01(\x02\x12\n\n\x02y1\x18\x04 \x01(\x02\x12\n\n\x02x2\x18\x05 \x01(\x02\x12\n\n\x02y2\x18\x06 \x01(\x02\x12\x14\n\x0crecieve_time\x18\x07 \x01(\x03\x12\x15\n\rsendback_time\x18\x08 \x01(\x03\x32^\n\x16RemoteRecognizeService\x12\x44\n\trecognize\x12\x19.network.RecognizeRequest\x1a\x1a.network.RecognizeResponse\"\x00\x42:\n\x19\x63om.narc.arclient.networkB\x1bRemoteRecognizeServiceProtoP\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cserver.proto\x12\x07network\"\xb0\x02\n\x10LogReportRequest\x12\x1a\n\x12\x64\x65viceSerialNumber\x18\x01 \x01(\t\x12\x0e\n\x06taskId\x18\x02 \x01(\t\x12\x11\n\tunloadEnd\x18\x03 \x01(\t\x12\x11\n\tstartTime\x18\x04 \x01(\t\x12\x0f\n\x07\x65ndTime\x18\x05 \x01(\t\x12\x10\n\x08posExist\x18\x06 \x01(\t\x12\x10\n\x08\x63opyTime\x18\x07 \x01(\x03\x12\x16\n\x0epreprocessTime\x18\x08 \x01(\x03\x12\x15\n\rrecognizeTime\x18\t \x01(\x03\x12\x12\n\nrenderTime\x18\n \x01(\x03\x12\x1b\n\x13transfer2RemoteTime\x18\x0b \x01(\x03\x12\x19\n\x11\x63omputeRemoteTime\x18\x0c \x01(\x03\x12\x1a\n\x12transfer2LocalTime\x18\r \x01(\x03\"}\n\x12SystemStateRequest\x12\x1a\n\x12\x64\x65viceSerialNumber\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x03\x12\x10\n\x08\x63puUsage\x18\x03 \x01(\t\x12\x10\n\x08memUsage\x18\x04 \x01(\t\x12\x14\n\x0c\x62\x61tteryLevel\x18\x05 \x01(\t\" \n\rEmptyResponse\x12\x0f\n\x07success\x18\x01 \x01(\t\"\'\n\x10RecognizeRequest\x12\x13\n\x0b\x62itmap_data\x18\x01 \x01(\x0c\"\x95\x01\n\x11RecognizeResponse\x12\x12\n\nhandedness\x18\x01 \x01(\t\x12\x0f\n\x07gesture\x18\x02 \x01(\t\x12\n\n\x02x1\x18\x03 \x01(\x02\x12\n\n\x02y1\x18\x04 \x01(\x02\x12\n\n\x02x2\x18\x05 \x01(\x02\x12\n\n\x02y2\x18\x06 \x01(\x02\x12\x14\n\x0crecieve_time\x18\x07 \x01(\x03\x12\x15\n\rsendback_time\x18\x08 \x01(\x03\x32\xe6\x01\n\x16RemoteRecognizeService\x12\x44\n\trecognize\x12\x19.network.RecognizeRequest\x1a\x1a.network.RecognizeResponse\"\x00\x12@\n\tlogReport\x12\x19.network.LogReportRequest\x1a\x16.network.EmptyResponse\"\x00\x12\x44\n\x0bsystemState\x12\x1b.network.SystemStateRequest\x1a\x16.network.EmptyResponse\"\x00\x42:\n\x19\x63om.narc.arclient.networkB\x1bRemoteRecognizeServiceProtoP\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -22,10 +22,16 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'server_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   _globals['DESCRIPTOR']._loaded_options = None
   _globals['DESCRIPTOR']._serialized_options = b'\n\031com.narc.arclient.networkB\033RemoteRecognizeServiceProtoP\001'
-  _globals['_RECOGNIZEREQUEST']._serialized_start=25
-  _globals['_RECOGNIZEREQUEST']._serialized_end=64
-  _globals['_RECOGNIZERESPONSE']._serialized_start=67
-  _globals['_RECOGNIZERESPONSE']._serialized_end=216
-  _globals['_REMOTERECOGNIZESERVICE']._serialized_start=218
-  _globals['_REMOTERECOGNIZESERVICE']._serialized_end=312
+  _globals['_LOGREPORTREQUEST']._serialized_start=26
+  _globals['_LOGREPORTREQUEST']._serialized_end=330
+  _globals['_SYSTEMSTATEREQUEST']._serialized_start=332
+  _globals['_SYSTEMSTATEREQUEST']._serialized_end=457
+  _globals['_EMPTYRESPONSE']._serialized_start=459
+  _globals['_EMPTYRESPONSE']._serialized_end=491
+  _globals['_RECOGNIZEREQUEST']._serialized_start=493
+  _globals['_RECOGNIZEREQUEST']._serialized_end=532
+  _globals['_RECOGNIZERESPONSE']._serialized_start=535
+  _globals['_RECOGNIZERESPONSE']._serialized_end=684
+  _globals['_REMOTERECOGNIZESERVICE']._serialized_start=687
+  _globals['_REMOTERECOGNIZESERVICE']._serialized_end=917
 # @@protoc_insertion_point(module_scope)

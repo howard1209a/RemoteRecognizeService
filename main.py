@@ -1,3 +1,4 @@
+import csv
 import os
 import time
 
@@ -26,9 +27,15 @@ options = GestureRecognizerOptions(
 recognizer = GestureRecognizer.create_from_options(options)
 
 
+def is_jpeg(data: bytes) -> bool:
+    # 检查文件的开头和结尾是否是JPEG格式的标志
+    return data[:2] == b'\xFF\xD8' and data[-2:] == b'\xFF\xD9'
+
+
 class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
     def recognize(self, request, context):
         recieve_time = (int)(time.time() * 1000)
+
         # 使用PIL将字节数据转换为图像
         image = Image.open(io.BytesIO(request.bitmap_data))
         # 将图像转换为NumPy数组
@@ -59,29 +66,44 @@ class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
                                                 sendback_time=sendback_time)
 
     def logReport(self, request, context):
-        log_data = (
-            f"{request.deviceSerialNumber} "
-            f"{request.taskId} "
-            f"{request.unloadEnd} "
-            f"{request.startTime} "
-            f"{request.endTime} "
-            f"{request.posExist} "
-            f"{request.copyTime} "
-            f"{request.preprocessTime} "
-            f"{request.recognizeTime} "
-            f"{request.renderTime} "
-            f"{request.transfer2RemoteTime} "
-            f"{request.computeRemoteTime} "
-            f"{request.transfer2LocalTime}\n"
-        )
+        # 定义列名
+        columns = [
+            "deviceSerialNumber", "taskId", "unloadEnd", "startTime", "endTime",
+            "posExist", "copyTime", "preprocessTime", "recognizeTime",
+            "renderTime", "transfer2RemoteTime", "computeRemoteTime", "transfer2LocalTime",
+            "transTime", "allTime"
+        ]
 
         # 创建目录（如果不存在）
         log_dir = f"log/{request.deviceSerialNumber}"
         os.makedirs(log_dir, exist_ok=True)
 
-        with open("log/" + request.deviceSerialNumber + "/" + "log-" + request.deviceSerialNumber + ".txt",
-                  "a") as log_file:
-            log_file.write(log_data)
+        # 定义CSV文件路径
+        log_file_path = f"{log_dir}/log-{request.deviceSerialNumber}.csv"
+
+        # 准备数据行
+        log_data = [
+            request.deviceSerialNumber, request.taskId, request.unloadEnd,
+            request.startTime, request.endTime, request.posExist,
+            request.copyTime, request.preprocessTime, request.recognizeTime,
+            request.renderTime, request.transfer2RemoteTime, request.computeRemoteTime,
+            request.transfer2LocalTime,
+            int(request.transfer2LocalTime) + int(request.transfer2RemoteTime),
+            int(request.endTime) -int(request.startTime)
+        ]
+
+        # 判断文件是否存在，若不存在则写入列名
+        file_exists = os.path.exists(log_file_path)
+
+        with open(log_file_path, mode='a', newline='') as log_file:
+            writer = csv.writer(log_file)
+
+            # 如果文件是新创建的，写入列名
+            if not file_exists:
+                writer.writerow(columns)
+
+            # 写入数据行
+            writer.writerow(log_data)
 
         return server_pb2.EmptyResponse(success="true")
 

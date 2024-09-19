@@ -1,8 +1,4 @@
 deviceSerialNumber,taskId,unloadEnd,startTime,endTime,posExist,copyTime,preprocessTime,recognizeTime,renderTime,transfer2RemoteTime,computeRemoteTime,transfer2LocalTime,transTime,allTime
-Y2M4WF,2,REMOTE,1726627017737,1726627018983,0,44,0,0,1,773,129,299,1072,1246
-deviceSerialNumber,taskId,unloadEnd,startTime,endTime,posExist,copyTime,preprocessTime,recognizeTime,renderTime,transfer2RemoteTime,computeRemoteTime,transfer2LocalTime,transTime,allTime
-Y2M4WF,1,REMOTE,1726627017141,1726627018986,0,46,0,0,1,1333,152,279,1612,1845
-Y2M4WF,3,REMOTE,1726627018241,1726627018987,0,46,0,0,0,358,82,258,616,746
 Y2M4WF,4,REMOTE,1726627019011,1726627019350,1,54,0,0,2,-70,92,261,191,339
 Y2M4WF,5,REMOTE,1726627019508,1726627019811,1,54,0,0,1,-56,76,227,171,303
 Y2M4WF,6,REMOTE,1726627020275,1726627021019,1,59,0,0,1,246,87,350,596,744

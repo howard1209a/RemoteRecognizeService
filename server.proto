@@ -10,6 +10,26 @@ service RemoteRecognizeService {
   rpc recognize (RecognizeRequest) returns (RecognizeResponse) {}
   rpc logReport(LogReportRequest) returns (EmptyResponse) {}
   rpc systemState(SystemStateRequest) returns (EmptyResponse) {}
+  rpc taskOffload(TaskOffloadRequest) returns (TaskOffloadResponse) {}
+}
+
+message TaskOffloadRequest {
+  int64 taskID = 1;
+  int64 index = 2;
+  repeated float tensorData = 3;
+}
+
+message TaskOffloadResponse {
+  repeated Box boxes = 1;
+}
+
+message Box {
+  float x1 = 1;
+  float y1 = 2;
+  float x2 = 3;
+  float y2 = 4;
+  float conf = 5;
+  float cls = 6;
 }
 
 message LogReportRequest {

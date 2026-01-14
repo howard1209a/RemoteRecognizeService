@@ -12,8 +12,10 @@ import io
 
 import server_pb2
 import server_pb2_grpc
+from yolo.yolo_detector import YoloDetector
+import torch
 
-model_path = 'gesture_recognizer.task'
+model_path = 'mediapipe/gesture_recognizer.task'
 
 BaseOptions = mp.tasks.BaseOptions
 GestureRecognizer = mp.tasks.vision.GestureRecognizer
@@ -26,6 +28,8 @@ options = GestureRecognizerOptions(
     running_mode=VisionRunningMode.IMAGE)
 recognizer = GestureRecognizer.create_from_options(options)
 
+yolo_detector = YoloDetector()
+
 
 def is_jpeg(data: bytes) -> bool:
     # 检查文件的开头和结尾是否是JPEG格式的标志
@@ -33,6 +37,24 @@ def is_jpeg(data: bytes) -> bool:
 
 
 class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
+    def taskOffload(self, request, context):
+        # return server_pb2.TaskOffloadResponse(boxes=[])
+
+        repeatedScalarContainer = request.tensorData
+        floatList = list(repeatedScalarContainer)
+        input_tensor = torch.tensor(floatList, dtype=torch.float32)
+        input_tensor = input_tensor.view(1, 64, 80, 80)
+
+        resultTensor = yolo_detector.detect(input_tensor, request.index)
+
+        boxes = []
+        for boxTensor in resultTensor:
+            box = server_pb2.Box(x1=boxTensor[0], y1=boxTensor[1], x2=boxTensor[2], y2=boxTensor[3], conf=boxTensor[4],
+                                 cls=boxTensor[5])
+            boxes.append(box)
+
+        return server_pb2.TaskOffloadResponse(boxes=boxes)
+
     def recognize(self, request, context):
         recieve_time = (int)(time.time() * 1000)
 
@@ -89,7 +111,7 @@ class RemoteRecognizeService(server_pb2_grpc.RemoteRecognizeServiceServicer):
             request.renderTime, request.transfer2RemoteTime, request.computeRemoteTime,
             request.transfer2LocalTime,
             int(request.transfer2LocalTime) + int(request.transfer2RemoteTime),
-            int(request.endTime) -int(request.startTime)
+            int(request.endTime) - int(request.startTime)
         ]
 
         # 判断文件是否存在，若不存在则写入列名
